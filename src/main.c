@@ -178,6 +178,11 @@ int main(void)
 
   bool const dfu_skip = (NRF_POWER->GPREGRET == DFU_MAGIC_SKIP);
 
+  if ((NRF_POWER->RESETREAS & POWER_RESETREAS_VBUS_Msk) && dfu_skip) {
+    NRF_POWER->RESETREAS |= POWER_RESETREAS_VBUS_Msk;
+    NRF_POWER->SYSTEMOFF = 1;
+  }
+
   // Clear GPREGRET if it is our values
   if (dfu_start || dfu_skip) NRF_POWER->GPREGRET = 0;
 
