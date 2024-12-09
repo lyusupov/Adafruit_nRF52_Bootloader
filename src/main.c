@@ -239,6 +239,11 @@ static void check_dfu_mode(void) {
   bool dfu_start = _ota_dfu || serial_only_dfu || uf2_dfu ||
                    (((*dbl_reset_mem) == DFU_DBL_RESET_MAGIC) && reason_reset_pin);
 
+  if ((NRF_POWER->RESETREAS & POWER_RESETREAS_VBUS_Msk) && dfu_skip) {
+    NRF_POWER->RESETREAS |= POWER_RESETREAS_VBUS_Msk;
+    NRF_POWER->SYSTEMOFF = 1;
+  }
+
   // Clear GPREGRET if it is our values
   if (dfu_start || dfu_skip) NRF_POWER->GPREGRET = 0;
 
