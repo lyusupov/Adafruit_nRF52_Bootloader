@@ -90,6 +90,35 @@ void board_init(void) {
   #if LEDS_NUMBER > 1
   led_pwm_init(LED_SECONDARY, LED_SECONDARY_PIN);
   #endif
+#else
+
+#if LED_RED_PIN
+  nrf_gpio_cfg_output(LED_RED_PIN);
+#if LED_STATE_ON == 1
+  nrf_gpio_pin_set(LED_RED_PIN);
+#else
+  nrf_gpio_pin_clear(LED_RED_PIN);
+#endif
+#endif
+
+#if LED_GREEN_PIN
+  nrf_gpio_cfg_output(LED_GREEN_PIN);
+#if LED_STATE_ON == 1
+  nrf_gpio_pin_set(LED_GREEN_PIN);
+#else
+  nrf_gpio_pin_clear(LED_GREEN_PIN);
+#endif
+#endif
+
+#if LED_BLUE_PIN
+  nrf_gpio_cfg_output(LED_BLUE_PIN);
+#if LED_STATE_ON == 1
+  nrf_gpio_pin_set(LED_BLUE_PIN);
+#else
+  nrf_gpio_pin_clear(LED_BLUE_PIN);
+#endif
+#endif
+
 #endif
 
 #if defined(LED_NEOPIXEL) || defined(LED_RGB_RED_PIN) || defined(LED_APA102_CLK)
